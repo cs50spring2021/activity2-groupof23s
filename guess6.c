@@ -1,4 +1,4 @@
-/* 
+/*
  * guess6.c - a C version of our simple bash demo program guess1
  *  (we use readLine() to improve input checking)
  *  (allow them to give up by entering 'quit')
@@ -51,7 +51,9 @@ main(const int argc, const char * argv[])
   printf("I'm thinking of a number between 1-%d.\n", max);
   guess = askGuess(1, max);
 
-  while (guess != 0 && guess != answer) {
+  // counter
+  int i = 1;
+  while (guess != 0 && guess != answer && i < 10) {
     if (guess < 0) {
       printf("invalid number!\n");
     } else if (guess > answer) {
@@ -60,6 +62,8 @@ main(const int argc, const char * argv[])
       printf("too low!\n");
     }
     guess = askGuess(1, max);
+    //increment the answer counter
+    i++;
   }
 
   if (guess == answer)
@@ -101,7 +105,7 @@ askGuess(const int low, const int high)
   printf("Guess my number (between %d and %d, or 0 to give up): ", low, high);
 
   // use readLine() to read a whole line, or as much as fits into our buffer
-  // if it returns false, the line was too long, or an EOF occurred. 
+  // if it returns false, the line was too long, or an EOF occurred.
   if (!readLine(inputLine, bufsize)) {
     if (feof(stdin)) {    // end of file
       printf("EOF\n");
@@ -115,12 +119,12 @@ askGuess(const int low, const int high)
   if (strcmp(inputLine, "quit") == 0) {
     return 0;
   }
-  
+
   if (!str2int(inputLine, &guess)) {
     printf("Hey! bad integer.\n");
     return -1;
   }
-  
+
   if (guess == 0) {
     return 0;
   }
@@ -136,7 +140,7 @@ askGuess(const int low, const int high)
 /* ***************** str2int ********************** */
 /*
  * Convert a string to an integer, returning that integer.
- * Returns true if successful, or false if any error. 
+ * Returns true if successful, or false if any error.
  * It is an error if there is any additional character beyond the integer.
  * Assumes number is a valid pointer.
  */
